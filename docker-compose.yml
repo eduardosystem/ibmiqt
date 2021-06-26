@@ -1,0 +1,32 @@
+version: '3'
+networks:
+    red:
+services:
+  node:
+    container_name: node
+    build: ./backend
+    networks:
+      red:
+        aliases:
+          - backend-IP
+  nginx:
+    container_name: nginx
+    build: ./nginx
+    ports:
+      - 8080:80
+    networks:
+      red:
+        aliases:
+          - nginx-IP
+    depends_on:
+      - node
+
+  mysql:
+    container_name: mysql
+    build: ./basededatos
+    networks:
+      red:
+        aliases:
+          - mysql-IP 
+    ports:
+      - 3306:3306
